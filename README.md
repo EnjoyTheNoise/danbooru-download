@@ -3,7 +3,7 @@ Simple user-script for downloading images from danbooru with one click.
 
 ## Usage
 1. Navigate to interesting post on danbooru (https://danbooru.donmai.us/posts/somenumber).
-2. Press button.
+2. Press button (default: "/").
 3. ????
 4. Profit.
 
