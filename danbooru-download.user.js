@@ -2,7 +2,7 @@
 // @name         danbooru-download
 // @version      2137
 // @description  I'm lazy ass weeb
-// @author       Zettai Royouiki
+// @author       Zettai Ryouiki
 // @homepage     https://github.com/EnjoyTheNoise/danbooru-download
 // @match        https://danbooru.donmai.us/posts/*
 // @grant none
