@@ -9,38 +9,58 @@
 // ==/UserScript==
 
 (() => {
-    'use strict';
+  "use strict";
 
-    const keyCode = 191 // "/" key, you can change it to w/e you like, grab code from here: https://keycode.info/
+  const keyCode = 191; // "/" key, you can change it to w/e you like, grab code from here: https://keycode.info/
 
-    const keyPressed = e => {
-        let code = e.keyCode;
+  const keyPressed = e => {
+    const code = e.keyCode;
 
-        if(code === keyCode) {
-            try{
-                let imgSection = document.getElementById("image-container");
-                let url = imgSection.getAttribute("data-file-url");
-                let name = imgSection.querySelector("#image").getAttribute("src").split("/").pop();
-                downloadUrl(url, name);
-            }
-            catch (error) {
-                return; // I don't really care
-            }
-        } else {
-            return;
-        }
+    if (code === keyCode) {
+      try {
+        const imgSection = getImgSection();
+        const { url, name } = getDownloadInfo(imgSection);
+        downloadUrl(url, name);
+      } catch (error) {
+        console.log(error);
+        return; // I don't really care
+      }
+    } else {
+      return;
     }
+  };
 
-    const downloadUrl = (url, name) => {
-        let link = document.createElement("a");
+  const getImgSection = () => {
+    const sections = document.getElementsByTagName("section");
+    const sectionsArray = [...sections];
+    const imgSection = sectionsArray.find(section => {
+      return section.hasAttribute("data-file-url");
+    });
+    
+    return imgSection;
+  };
 
-        link.download = name;
-        link.href = url;
-        link.target = "_blank";
-        link.dispatchEvent(new MouseEvent("click"));
+  const getDownloadInfo = section => {
+    const url = section.getAttribute("data-file-url");
+    const name = section
+      .querySelector("#image")
+      .getAttribute("src")
+      .split("/")
+      .pop();
 
-        link = null; //let GC handle this
-    }
+    return { url, name };
+  };
 
-    document.addEventListener("keydown", keyPressed, false);
+  const downloadUrl = (url, name) => {
+    const link = document.createElement("a");
+
+    link.download = name;
+    link.href = url;
+    link.target = "_blank";
+    link.dispatchEvent(new MouseEvent("click"));
+
+    link = null; //let GC handle this
+  };
+
+  document.addEventListener("keydown", keyPressed, false);
 })();
