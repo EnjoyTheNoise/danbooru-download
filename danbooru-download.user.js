@@ -18,8 +18,7 @@
 
     if (code === keyCode) {
       try {
-        const imgSection = getImgSection();
-        const { url, name } = getDownloadInfo(imgSection);
+        const { url, name } = getDownloadInfo();
         downloadUrl(url, name);
       } catch (error) {
         console.log(error);
@@ -30,29 +29,17 @@
     }
   };
 
-  const getImgSection = () => {
-    const sections = document.getElementsByTagName("section");
-    const sectionsArray = [...sections];
-    const imgSection = sectionsArray.find(section => {
-      return section.hasAttribute("data-file-url");
-    });
-    
-    return imgSection;
-  };
+  const getDownloadInfo = () => {
+      const sectionEntry = document.getElementById("post-option-download");
+      const url = sectionEntry.getElementsByTagName("a")[0].getAttribute("href");
 
-  const getDownloadInfo = section => {
-    const url = section.getAttribute("data-file-url");
-    const name = section
-      .querySelector("#image")
-      .getAttribute("src")
-      .split("/")
-      .pop();
+      const name = url.split("/").pop().split("?").shift();
 
-    return { url, name };
-  };
+      return { url, name };
+  }
 
   const downloadUrl = (url, name) => {
-    const link = document.createElement("a");
+    let link = document.createElement("a");
 
     link.download = name;
     link.href = url;
